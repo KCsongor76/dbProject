@@ -8,6 +8,7 @@ from mongodbFunctions import *
 
 class MyApp:
     def __init__(self, root):
+        create_db()
         self.root = root
         self.root.title("DB project")
 
@@ -26,8 +27,6 @@ class MyApp:
         self.notebook.add(self.team_tab, text='Team')
         self.notebook.add(self.player_tab, text='Player')
         self.notebook.pack(expand=1, fill='both')
-
-        create_db()
 
     def create_team_tab(self):
         # Team tab elements
@@ -69,6 +68,13 @@ class MyApp:
 
     def on_send_team(self):
         self.send_team_mysql()
+
+        # Destroying existing widgets in the player tab
+        for widget in self.player_tab.winfo_children():
+            widget.destroy()
+
+        # Recreating the player tab
+        self.create_player_tab()
 
     def on_send_player(self):
         self.send_player_mysql()

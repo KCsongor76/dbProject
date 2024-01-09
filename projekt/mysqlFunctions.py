@@ -7,9 +7,21 @@ db_config = {
     'database': "db_project",
 }
 
+db_config_initial = {
+    'host': "localhost",
+    'user': "root",
+    'password': "",
+}
+
 
 def connect_to_db():
     db = mysql.connector.connect(**db_config)
+    cursor = db.cursor()
+    return db, cursor
+
+
+def connect_to_mysql():
+    db = mysql.connector.connect(**db_config_initial)
     cursor = db.cursor()
     return db, cursor
 
@@ -20,10 +32,10 @@ def close_connection(db, cursor):
 
 
 def create_db():
-    db, cursor = connect_to_db()
+    db, cursor = connect_to_mysql()
 
-    # query1 = "CREATE DATABASE IF NOT EXISTS db_project;"
-    # cursor.execute(query1)
+    query1 = "CREATE DATABASE IF NOT EXISTS db_project;"
+    cursor.execute(query1)
 
     cursor.execute("USE db_project")
 
